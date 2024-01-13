@@ -1,5 +1,8 @@
 pipeline {
   agent none
+  environment {
+     MVN_SET = credentials('maven_settings')
+  }
   stages {
     stage('Back-end') {
       agent {
@@ -17,6 +20,8 @@ pipeline {
             script: 'java -version'
         sh label: 'get maven version',
             script: 'mvn -version'
+        sh label: 'mvn test settings',
+           script: 'mvn -s $MVN_SET help:effective-settings'
       }
     }
     stage('Front-end') {
