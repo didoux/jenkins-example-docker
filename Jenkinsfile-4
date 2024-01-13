@@ -17,8 +17,6 @@ pipeline {
             script: 'java -version'
         sh label: 'get maven version',
             script: 'mvn -version'
-        sh label: 'get docker version',
-            script: 'docker version'
       }
     }
     stage('Front-end') {
