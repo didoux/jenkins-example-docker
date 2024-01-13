@@ -1,0 +1,32 @@
+pipeline {
+  agent none
+  stages {
+      agent {
+          docker {
+              image 'maven:3.9.6-eclipse-temurin-21'
+              args '-v $HOME/.m2:/root/.m2'
+          }
+      }
+      steps {
+        sh label: 'get build PATH',
+            script: 'echo $PATH'
+        sh label: 'get build JAVA_HOME',
+            script: 'echo $JAVA_HOME'
+        sh label: 'get java version',
+            script: 'java -version'
+        sh label: 'get maven version',
+            script: 'mvn -version'
+        sh label: 'get docker version',
+            script: 'docker version'
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
+      steps {
+        sh 'node --version'
+      }
+    }
+  }
+}
